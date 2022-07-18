@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Pearl.Api.Options;
 using Pearl.Database;
 
 namespace Pearl.Api;
@@ -15,6 +16,8 @@ public sealed class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddControllers();
+
+        services.Configure<SecretsOptions>(configuration.GetSection(SecretsOptions.Secrets));
 
         services.AddDbContextPool<PearlContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString(nameof(PearlContext))));
