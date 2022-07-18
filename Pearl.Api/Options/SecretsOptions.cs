@@ -5,7 +5,7 @@ public sealed class SecretsOptions
     public static string Secrets => nameof(Secrets);
 
     /// <summary>
-    ///     The access token secret key.
+    ///     The access token's secret key.
     /// </summary>
     public string Key { get; set; } = null!;
 
