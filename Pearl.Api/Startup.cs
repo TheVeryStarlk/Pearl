@@ -42,6 +42,7 @@ public sealed class Startup
         services.Configure<SecretsOptions>(configuration.GetSection(SecretsOptions.Secrets));
 
         services.AddTransient<AccessTokenService>();
+        services.AddTransient<AuthenticationService>();
         services.AddTransient<HashService>();
         services.AddTransient<RefreshTokenService>();
 
