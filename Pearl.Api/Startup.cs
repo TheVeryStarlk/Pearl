@@ -1,6 +1,8 @@
 ﻿using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Pearl.Api.Options;
 using Pearl.Api.Services;
 using Pearl.Database;
@@ -20,7 +22,7 @@ public sealed class Startup
     {
         services.AddControllers();
 
-        services.AddTransient(_ => new TokenValidationParameters()
+        var tokenValidationParameters = new TokenValidationParameters()
         {
             IssuerSigningKey =
                 new SymmetricSecurityKey(
@@ -30,7 +32,12 @@ public sealed class Startup
             ClockSkew = TimeSpan.Zero,
             ValidateAudience = false,
             ValidateIssuer = false
-        });
+        };
+
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            options.TokenValidationParameters = tokenValidationParameters);
+
+        services.AddTransient(_ => tokenValidationParameters);
 
         services.Configure<SecretsOptions>(configuration.GetSection(SecretsOptions.Secrets));
 
@@ -44,6 +51,36 @@ public sealed class Startup
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
+
+        services.AddSwaggerGen(options =>
+        {
+            options.SwaggerDoc("v1", new OpenApiInfo());
+
+            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+            {
+                In = ParameterLocation.Header,
+                Description = "Provide a valid access token.",
+                Name = "Authorization",
+                Type = SecuritySchemeType.Http,
+                BearerFormat = "JWT",
+                Scheme = "Bearer"
+            });
+
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement()
+            {
+                {
+                    new OpenApiSecurityScheme()
+                    {
+                        Reference = new OpenApiReference()
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    Array.Empty<string>()
+                }
+            });
+        });
     }
 
     public void Configure(IApplicationBuilder builder, IWebHostEnvironment environment)
@@ -56,6 +93,7 @@ public sealed class Startup
 
         builder.UseRouting();
         builder.UseHttpsRedirection();
+        builder.UseAuthentication();
         builder.UseAuthorization();
 
         builder.UseEndpoints(endpoints => endpoints.MapControllers());
