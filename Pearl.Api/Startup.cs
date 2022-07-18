@@ -35,6 +35,7 @@ public sealed class Startup
         services.Configure<SecretsOptions>(configuration.GetSection(SecretsOptions.Secrets));
 
         services.AddTransient<AccessTokenService>();
+        services.AddTransient<HashService>();
 
         services.AddDbContextPool<PearlContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString(nameof(PearlContext))));
