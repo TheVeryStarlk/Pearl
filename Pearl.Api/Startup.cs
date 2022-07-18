@@ -1,5 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Text;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Pearl.Api.Options;
+using Pearl.Api.Services;
 using Pearl.Database;
 
 namespace Pearl.Api;
@@ -17,7 +20,21 @@ public sealed class Startup
     {
         services.AddControllers();
 
+        services.AddTransient(_ => new TokenValidationParameters()
+        {
+            IssuerSigningKey =
+                new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes(configuration.GetSection($"{SecretsOptions.Secrets}:Key").Value)),
+            ValidAlgorithms = new[] { SecurityAlgorithms.HmacSha256 },
+            ValidateIssuerSigningKey = true,
+            ClockSkew = TimeSpan.Zero,
+            ValidateAudience = false,
+            ValidateIssuer = false
+        });
+
         services.Configure<SecretsOptions>(configuration.GetSection(SecretsOptions.Secrets));
+
+        services.AddTransient<AccessTokenService>();
 
         services.AddDbContextPool<PearlContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString(nameof(PearlContext))));
