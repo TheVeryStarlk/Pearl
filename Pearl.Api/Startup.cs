@@ -36,6 +36,7 @@ public sealed class Startup
 
         services.AddTransient<AccessTokenService>();
         services.AddTransient<HashService>();
+        services.AddTransient<RefreshTokenService>();
 
         services.AddDbContextPool<PearlContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString(nameof(PearlContext))));
