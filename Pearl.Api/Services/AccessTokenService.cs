@@ -49,7 +49,7 @@ public sealed class AccessTokenService
                 new JwtSecurityTokenHandler().ValidateToken(token, tokenValidationParameters, out var validatedToken);
 
             return validatedToken.ValidTo > DateTime.UtcNow
-                ? Result.Fail("The provided access token did not expire yet.")
+                ? Result.Fail("The provided access token has not expired yet.")
                 : Result.Ok(claimsPrincipal.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Name)?.Value);
         }
         catch
