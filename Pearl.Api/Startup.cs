@@ -53,7 +53,7 @@ public sealed class Startup
         services.AddDbContextPool<PearlContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString(nameof(PearlContext))));
 
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle.
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
 
