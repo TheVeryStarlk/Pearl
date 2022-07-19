@@ -67,7 +67,9 @@ public sealed class AuthenticationService
 
         var username = refreshToken.User.Name;
 
-        if (accessTokenService.Verify(request.AccessToken) == username)
+        var accessTokenResult = accessTokenService.Verify(request.AccessToken);
+
+        if (accessTokenResult.IsSuccess && accessTokenResult.Value == username)
         {
             if (DateTime.UtcNow > refreshToken.ExpiryDate)
             {
@@ -80,6 +82,6 @@ public sealed class AuthenticationService
             return Result.Ok(new RefreshResponse(accessTokenService.Generate(username)));
         }
 
-        return Result.Fail("The provided refresh token is invalid.");
+        return Result.Fail(accessTokenResult.Errors);
     }
 }

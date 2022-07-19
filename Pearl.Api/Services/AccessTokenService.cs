@@ -1,6 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using FluentResults;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Pearl.Api.Options;
@@ -38,7 +39,7 @@ public sealed class AccessTokenService
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
-    public string? Verify(string token)
+    public Result<string?> Verify(string token)
     {
         try
         {
@@ -48,12 +49,12 @@ public sealed class AccessTokenService
                 new JwtSecurityTokenHandler().ValidateToken(token, tokenValidationParameters, out var validatedToken);
 
             return validatedToken.ValidTo > DateTime.UtcNow
-                ? claimsPrincipal.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Name)?.Value
-                : null;
+                ? Result.Fail("The provided access token did not expire yet.")
+                : Result.Ok(claimsPrincipal.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Name)?.Value);
         }
         catch
         {
-            return null;
+            return Result.Fail("The provided access token is invalid.");
         }
     }
 }
