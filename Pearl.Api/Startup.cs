@@ -45,13 +45,13 @@ public sealed class Startup
 
         services.Configure<SecretsOptions>(configuration.GetSection(SecretsOptions.Secrets));
 
+        services.AddDbContextPool<PearlContext>(options =>
+            options.UseNpgsql(configuration.GetConnectionString(nameof(PearlContext))));
+
         services.AddTransient<AccessTokenService>();
         services.AddTransient<AuthenticationService>();
         services.AddTransient<HashService>();
         services.AddTransient<RefreshTokenService>();
-
-        services.AddDbContextPool<PearlContext>(options =>
-            options.UseNpgsql(configuration.GetConnectionString(nameof(PearlContext))));
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle.
         services.AddEndpointsApiExplorer();
