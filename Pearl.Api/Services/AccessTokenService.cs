@@ -24,7 +24,8 @@ public sealed class AccessTokenService
     {
         var claims = new Claim[]
         {
-            new Claim(ClaimTypes.Name, username)
+            // The reason behind using the subject claim is because all usernames are unique.
+            new Claim("sub", username)
         };
 
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretsOptions.Value.Key));
@@ -50,7 +51,8 @@ public sealed class AccessTokenService
 
             return validatedToken.ValidTo > DateTime.UtcNow
                 ? Result.Fail("The provided access token has not expired yet.")
-                : Result.Ok(claimsPrincipal.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Name)?.Value);
+                : Result.Ok(claimsPrincipal.Claims
+                    .FirstOrDefault(claim => claim.Type == ClaimTypes.NameIdentifier)?.Value);
         }
         catch
         {
