@@ -46,13 +46,10 @@ public sealed class AccessTokenService
         {
             tokenValidationParameters.ValidateLifetime = false;
 
-            var claimsPrincipal =
-                new JwtSecurityTokenHandler().ValidateToken(token, tokenValidationParameters, out var validatedToken);
+            var claimsPrincipal = new JwtSecurityTokenHandler().ValidateToken(token, tokenValidationParameters, out _);
 
-            return validatedToken.ValidTo > DateTime.UtcNow
-                ? Result.Fail("The provided access token has not expired yet.")
-                : Result.Ok(claimsPrincipal.Claims
-                    .FirstOrDefault(claim => claim.Type == ClaimTypes.NameIdentifier)?.Value);
+            return Result.Ok(claimsPrincipal.Claims
+                .FirstOrDefault(claim => claim.Type == ClaimTypes.NameIdentifier)?.Value);
         }
         catch
         {
