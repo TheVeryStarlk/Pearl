@@ -9,4 +9,7 @@ public sealed class Group
 
     [Required]
     public string Name { get; set; } = null!;
+
+    [Required]
+    public List<User> Users { get; set; } = null!;
 }
