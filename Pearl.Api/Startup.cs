@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Pearl.Api.Filters;
+using Pearl.Api.Hubs;
 using Pearl.Api.Options;
 using Pearl.Api.Services;
 using Pearl.Database;
@@ -25,6 +26,8 @@ public sealed class Startup
         services.AddControllers(options => options.Filters.Add<ValidationFilter>())
             .ConfigureApiBehaviorOptions(options => options.SuppressModelStateInvalidFilter = true)
             .AddFluentValidation(options => options.RegisterValidatorsFromAssemblyContaining<Startup>());
+
+        services.AddSignalR();
 
         var tokenValidationParameters = new TokenValidationParameters()
         {
@@ -50,6 +53,7 @@ public sealed class Startup
 
         services.AddTransient<AccessTokenService>();
         services.AddTransient<AuthenticationService>();
+        services.AddTransient<GroupsService>();
         services.AddTransient<HashService>();
         services.AddTransient<RefreshTokenService>();
 
@@ -101,6 +105,10 @@ public sealed class Startup
         builder.UseAuthentication();
         builder.UseAuthorization();
 
-        builder.UseEndpoints(endpoints => endpoints.MapControllers());
+        builder.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+            endpoints.MapHub<GroupsHub>($"/{nameof(GroupsHub)}");
+        });
     }
 }
