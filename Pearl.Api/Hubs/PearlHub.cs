@@ -13,35 +13,25 @@ public sealed class PearlHub : Hub
     {
         this.pearlService = pearlService;
     }
-    
+
     [HubMethodName("JoinGroup")]
     public async Task<ErrorResponse?> JoinGroupAsync(string name)
     {
         var response = await pearlService.JoinGroupAsync(name, Context.Subject());
 
-        if (response.IsSuccess)
+        return response.IfSuccess(async () =>
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, name);
             await Clients.Group(name).SendAsync("Group", response.Value);
-
-            return null;
-        }
-
-        return new ErrorResponse(response.Errors.Select(error => error.Message).ToArray());
+        });
     }
-    
-    [HubMethodName("SendMessage")]
-    public async Task<ErrorResponse?> SendMessageAsync(string content, string groupName)
+
+    public ErrorResponse? SendMessage(string content, string groupName)
     {
         var subject = Context.Subject();
         var response = pearlService.SendMessage(content, groupName, subject);
 
-        if (response.IsSuccess)
-        {
-            await Clients.Group(groupName).SendAsync("Message", subject, response.Value);
-            return null;
-        }
-
-        return new ErrorResponse(response.Errors.Select(error => error.Message).ToArray());
+        return response.IfSuccess(async () =>
+            await Clients.Group(groupName).SendAsync("Message", subject, response.Value));
     }
 }
