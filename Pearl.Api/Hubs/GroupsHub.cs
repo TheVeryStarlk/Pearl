@@ -1,5 +1,5 @@
-﻿using System.Security.Claims;
-using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.SignalR;
+using Pearl.Api.Extensions;
 using Pearl.Api.Models.Responses;
 using Pearl.Api.Services;
 
@@ -17,13 +17,12 @@ public sealed class GroupsHub : Hub
     [HubMethodName("JoinGroup")]
     public async Task<ErrorResponse?> JoinGroupAsync(string name)
     {
-        var response =
-            await groupsService.JoinGroupAsync(name, Context.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
+        var response = await groupsService.JoinGroupAsync(name, Context.Subject());
 
-        if (response.IsFailed)
+        if (response.IsSuccess)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, name);
-            await Clients.Group(name).SendAsync("Broadcast", response.Value);
+            await Clients.Group(name).SendAsync("Group", response.Value);
 
             return null;
         }

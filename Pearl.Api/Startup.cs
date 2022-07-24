@@ -55,6 +55,7 @@ public sealed class Startup
         services.AddTransient<AuthenticationService>();
         services.AddTransient<GroupsService>();
         services.AddTransient<HashService>();
+        services.AddTransient<MessagesService>();
         services.AddTransient<RefreshTokenService>();
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle.
@@ -108,7 +109,9 @@ public sealed class Startup
         builder.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();
+
             endpoints.MapHub<GroupsHub>($"/{nameof(GroupsHub)}");
+            endpoints.MapHub<MessagesHub>($"/{nameof(MessagesHub)}");
         });
     }
 }
