@@ -5,11 +5,11 @@ using Pearl.Database.Models;
 
 namespace Pearl.Api.Services;
 
-public sealed class GroupsService
+public sealed class PearlService
 {
     private readonly PearlContext pearlContext;
 
-    public GroupsService(PearlContext pearlContext)
+    public PearlService(PearlContext pearlContext)
     {
         this.pearlContext = pearlContext;
     }
@@ -72,5 +72,14 @@ public sealed class GroupsService
         await pearlContext.SaveChangesAsync();
 
         return Result.Ok($"\'{userName}\' has joined the group.");
+    }
+
+    public Result<string> SendMessage(string content, string groupName, string userName)
+    {
+        var databaseGroup = pearlContext.Groups.Include(path => path.Users).First(group => group.Name == groupName);
+
+        return databaseGroup.Users.Any(user => user.Name == userName)
+            ? Result.Ok(content)
+            : Result.Fail("Failed to send a message to the requested group.");
     }
 }
