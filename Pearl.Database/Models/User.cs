@@ -16,6 +16,5 @@ public sealed class User
     [Required]
     public byte[] Salt { get; set; } = null!;
 
-    [Required]
-    public List<Group> Groups { get; set; } = null!;
+    public List<Group>? Groups { get; set; }
 }
