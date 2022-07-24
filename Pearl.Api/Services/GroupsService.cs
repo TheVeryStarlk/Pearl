@@ -17,7 +17,8 @@ public sealed class GroupsService
     public async Task<Result<string>> JoinGroupAsync(string groupName, string userName)
     {
         var requestedGroup = pearlContext.Groups.FirstOrDefault(group => group.Name == groupName);
-        var requestedUser = pearlContext.Users.First(user => user.Name == userName);
+        var requestedUser = pearlContext.Users.Include(path => path.Groups).First(user => user.Name == userName);
+
         var groups = requestedUser.Groups;
 
         if (requestedGroup is null)
@@ -49,6 +50,13 @@ public sealed class GroupsService
             return Result.Ok($"\'{userName}\' has joined the group.");
         }
 
+        var databaseGroup = pearlContext.Groups.Include(path => path.Users).First(group => group.Name == groupName);
+
+        if (databaseGroup.Users.Any(user => user.Name == userName))
+        {
+            return Result.Fail($"\'{userName}\' is already in the group.");
+        }
+
         if (groups is not null)
         {
             groups.Add(requestedGroup);
@@ -63,10 +71,6 @@ public sealed class GroupsService
 
         await pearlContext.SaveChangesAsync();
 
-        var databaseGroup = pearlContext.Groups.Include(path => path.Users).First(group => group.Name == groupName);
-
-        return databaseGroup.Users.Any(user => user.Name == userName)
-            ? Result.Fail($"\'{userName}\' is already in the group.")
-            : Result.Ok($"\'{userName}\' has joined the group.");
+        return Result.Ok($"\'{userName}\' has joined the group.");
     }
 }
