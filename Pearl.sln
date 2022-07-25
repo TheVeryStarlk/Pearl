@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pearl.Api", "Pearl.Api\Pearl.Api.csproj", "{ED8F9F39-12DB-4341-BCEC-7F1189BDFEBC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pearl.Api", "Pearl.Api\Pearl.Api.csproj", "{ED8F9F39-12DB-4341-BCEC-7F1189BDFEBC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pearl.Database", "Pearl.Database\Pearl.Database.csproj", "{05ABEBE4-6D2C-4AAE-A2AD-7B140C003086}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pearl.Database", "Pearl.Database\Pearl.Database.csproj", "{05ABEBE4-6D2C-4AAE-A2AD-7B140C003086}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pearl.Maui", "Pearl.Maui\Pearl.Maui.csproj", "{3F3F3E62-7AAA-4F21-A61E-5EF2A09B75C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,12 @@ Global
 		{05ABEBE4-6D2C-4AAE-A2AD-7B140C003086}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{05ABEBE4-6D2C-4AAE-A2AD-7B140C003086}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{05ABEBE4-6D2C-4AAE-A2AD-7B140C003086}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F3F3E62-7AAA-4F21-A61E-5EF2A09B75C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F3F3E62-7AAA-4F21-A61E-5EF2A09B75C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F3F3E62-7AAA-4F21-A61E-5EF2A09B75C3}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{3F3F3E62-7AAA-4F21-A61E-5EF2A09B75C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F3F3E62-7AAA-4F21-A61E-5EF2A09B75C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F3F3E62-7AAA-4F21-A61E-5EF2A09B75C3}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
