@@ -25,7 +25,7 @@ public sealed class GroupsService
                 return Result.Fail($"'{userName}' is not in the requested group.");
             }
 
-            var messages = pearlContext.Messages.Where(message => message.Group.Name == groupName).ToArray();
+            var messages = pearlContext.Messages.Where(message => message.Group.Name == groupName);
             return Result.Ok(messages.Select(message => new Message(message.User.Name, message.Content)).ToArray());
         }
 

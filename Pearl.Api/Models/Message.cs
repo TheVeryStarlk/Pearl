@@ -1,3 +1,3 @@
 ﻿namespace Pearl.Api.Models;
 
-public sealed record Message(string User, string Content);
+public sealed record Message(string UserName, string Content);
