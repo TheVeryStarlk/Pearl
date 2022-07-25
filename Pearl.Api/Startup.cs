@@ -53,6 +53,7 @@ public sealed class Startup
 
         services.AddTransient<AccessTokenService>();
         services.AddTransient<AuthenticationService>();
+        services.AddTransient<GroupsService>();
         services.AddTransient<HashService>();
         services.AddTransient<PearlService>();
         services.AddTransient<RefreshTokenService>();

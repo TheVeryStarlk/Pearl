@@ -26,10 +26,11 @@ public sealed class PearlHub : Hub
         });
     }
 
-    public ErrorResponse? SendMessage(string content, string groupName)
+    [HubMethodName("SendMessage")]
+    public async Task<ErrorResponse?> SendMessageAsync(string content, string groupName)
     {
         var subject = Context.Subject();
-        var response = pearlService.SendMessage(content, groupName, subject);
+        var response = await pearlService.SendMessageAsync(content, groupName, subject);
 
         return response.IfSuccess(async () =>
             await Clients.Group(groupName).SendAsync("Message", subject, response.Value));
