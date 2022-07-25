@@ -3,6 +3,5 @@
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:local="clr-namespace:Pearl.Maui.Views">
 
-    <ShellContent Title="Welcome" Route="WelcomeView"
-                  ContentTemplate="{DataTemplate local:WelcomeView}" />
+    <ShellContent Route="WelcomeView" ContentTemplate="{DataTemplate local:WelcomeView}" />
 </Shell>
