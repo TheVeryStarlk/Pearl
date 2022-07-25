@@ -16,13 +16,13 @@ public sealed class RefreshTokenService
         this.secretsOptions = secretsOptions;
     }
 
-    public async Task<string> GenerateAsync(string username)
+    public async Task<string> GenerateAsync(string userName)
     {
         var token = Guid.NewGuid().ToString();
 
         pearlContext.RefreshTokens.Add(new RefreshToken()
         {
-            User = pearlContext.Users.First(user => user.Name == username),
+            User = pearlContext.Users.First(user => user.Name == userName),
             Value = token,
             ExpiryDate = DateTime.UtcNow.Add(secretsOptions.Value.RefreshTokenLifetime)
         });

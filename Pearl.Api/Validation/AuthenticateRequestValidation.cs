@@ -7,7 +7,7 @@ public sealed class AuthenticateRequestValidation : AbstractValidator<Authentica
 {
     public AuthenticateRequestValidation()
     {
-        RuleFor(request => request.Username).NotEmpty();
+        RuleFor(request => request.UserName).NotEmpty();
         RuleFor(request => request.Password).NotEmpty();
     }
 }

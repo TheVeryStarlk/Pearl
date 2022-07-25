@@ -26,13 +26,13 @@ public sealed class AuthenticationService
 
     public async Task<Result<AuthenticateResponse>> AuthenticateAsync(AuthenticateRequest request)
     {
-        var user = pearlContext.Users.FirstOrDefault(user => user.Name == request.Username);
+        var user = pearlContext.Users.FirstOrDefault(user => user.Name == request.UserName);
 
         if (user is not null)
         {
             var response = new AuthenticateResponse(
-                accessTokenService.Generate(request.Username),
-                await refreshTokenService.GenerateAsync(request.Username));
+                accessTokenService.Generate(request.UserName),
+                await refreshTokenService.GenerateAsync(request.UserName));
 
             return hashService.Verify(request.Password, user.Hash, user.Salt)
                 ? Result.Ok(response)
@@ -43,7 +43,7 @@ public sealed class AuthenticationService
 
         pearlContext.Users.Add(new User()
         {
-            Name = request.Username,
+            Name = request.UserName,
             Hash = password.Hash,
             Salt = password.Salt
         });
@@ -51,8 +51,8 @@ public sealed class AuthenticationService
         await pearlContext.SaveChangesAsync();
 
         return Result.Ok(new AuthenticateResponse(
-            accessTokenService.Generate(request.Username),
-            await refreshTokenService.GenerateAsync(request.Username)));
+            accessTokenService.Generate(request.UserName),
+            await refreshTokenService.GenerateAsync(request.UserName)));
     }
 
     public async Task<Result<RefreshResponse>> RefreshAsync(RefreshRequest request)
@@ -65,11 +65,11 @@ public sealed class AuthenticationService
             return Result.Fail("The provided refresh token could not be found.");
         }
 
-        var username = refreshToken.User.Name;
+        var userName = refreshToken.User.Name;
 
         var accessTokenResult = accessTokenService.Verify(request.AccessToken);
 
-        if (accessTokenResult.IsSuccess && accessTokenResult.Value == username)
+        if (accessTokenResult.IsSuccess && accessTokenResult.Value == userName)
         {
             if (DateTime.UtcNow > refreshToken.ExpiryDate)
             {
@@ -79,7 +79,7 @@ public sealed class AuthenticationService
             pearlContext.RefreshTokens.Remove(refreshToken);
             await pearlContext.SaveChangesAsync();
 
-            return Result.Ok(new RefreshResponse(accessTokenService.Generate(username)));
+            return Result.Ok(new RefreshResponse(accessTokenService.Generate(userName)));
         }
 
         return Result.Fail(accessTokenResult.Errors);

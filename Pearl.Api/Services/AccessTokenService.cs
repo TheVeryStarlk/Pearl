@@ -20,12 +20,12 @@ public sealed class AccessTokenService
         this.tokenValidationParameters = tokenValidationParameters;
     }
 
-    public string Generate(string username)
+    public string Generate(string userName)
     {
         var claims = new Claim[]
         {
-            // The reason behind using the subject claim is because all usernames are unique.
-            new Claim("sub", username)
+            // The reason behind using the subject claim is because all user names are unique.
+            new Claim("sub", userName)
         };
 
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretsOptions.Value.Key));
