@@ -76,9 +76,6 @@ public sealed class AuthenticationService
                 return Result.Fail("The provided refresh token has expired.");
             }
 
-            pearlContext.RefreshTokens.Remove(refreshToken);
-            await pearlContext.SaveChangesAsync();
-
             return Result.Ok(new RefreshResponse(accessTokenService.Generate(userName)));
         }
 
