@@ -12,4 +12,6 @@ public sealed class Group
 
     [Required]
     public List<User> Users { get; set; } = null!;
+
+    public List<Message>? Messages { get; set; }
 }
