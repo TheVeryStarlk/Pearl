@@ -10,13 +10,10 @@ public sealed partial class App : Application
         InitializeComponent();
     }
 
-    protected override Window CreateWindow(IActivationState activationState)
+    protected override Window CreateWindow(IActivationState? activationState)
     {
         var window = base.CreateWindow(activationState);
-        if (window is not null)
-        {
-            window.Title = "Pearl";
-        }
+        window.Title = "Pearl";
 
         return window;
     }

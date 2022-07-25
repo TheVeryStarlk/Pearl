@@ -1,4 +1,5 @@
-﻿using Pearl.Maui.ViewModels;
+﻿using Pearl.Maui.Services;
+using Pearl.Maui.ViewModels;
 using Pearl.Maui.Views;
 
 namespace Pearl.Maui;
@@ -20,7 +21,8 @@ public static class MauiProgram
         builder.Services
             .AddTransient<ShellView>()
             .AddTransient<WelcomeView>()
-            .AddTransient<WelcomeViewModel>();
+            .AddTransient<WelcomeViewModel>()
+            .AddTransient<ValidationService>();
 
         return builder.Build();
     }

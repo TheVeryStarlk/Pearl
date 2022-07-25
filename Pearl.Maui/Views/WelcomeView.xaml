@@ -3,17 +3,24 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
     <VerticalStackLayout VerticalOptions="CenterAndExpand" Margin="25, 0, 25, 0" Spacing="15">
-        <VerticalStackLayout>
+        <VerticalStackLayout Spacing="5">
             <Label Text="Welcome" FontSize="Title" />
             <Label Text="Please enter your account credentials." />
         </VerticalStackLayout>
 
-        <VerticalStackLayout>
-            <Entry Placeholder="Username" MaxLength="25" />
-            <Entry Placeholder="Password" IsPassword="True" MaxLength="25" />
+        <VerticalStackLayout Spacing="10">
+            <VerticalStackLayout Spacing="2.5">
+                <Entry Text="{Binding Username.Value}" Placeholder="Username" MaxLength="25" />
+                <Label x:Name="UsernameLabel" Text="{Binding Username.Error}" TextColor="#EC1426" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="2.5">
+                <Entry Text="{Binding Password.Value}" Placeholder="Password" IsPassword="True" MaxLength="25" />
+                <Label x:Name="PasswordLabel" Text="{Binding Password.Error}" IsVisible="false" TextColor="#EC1426" />
+            </VerticalStackLayout>
         </VerticalStackLayout>
 
-        <Button Text="Authenticate" />
+        <Button Text="Authenticate" Command="{Binding AuthenticateCommandAsync}" />
         <Label Text="A new account will be created if the provided username does not already exist." Opacity="0.5" />
     </VerticalStackLayout>
 </ContentPage>

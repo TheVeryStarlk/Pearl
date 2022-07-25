@@ -1,4 +1,5 @@
-﻿using Pearl.Maui.ViewModels;
+﻿using Pearl.Maui.Extensions;
+using Pearl.Maui.ViewModels;
 
 namespace Pearl.Maui.Views;
 
@@ -8,5 +9,8 @@ public sealed partial class WelcomeView : ContentPage
     {
         BindingContext = viewModel;
         InitializeComponent();
+
+        UsernameLabel.RegisterVisibilityToggler();
+        PasswordLabel.RegisterVisibilityToggler();
     }
 }
