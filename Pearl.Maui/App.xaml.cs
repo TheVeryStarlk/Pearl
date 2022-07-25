@@ -1,11 +1,12 @@
-﻿namespace Pearl.Maui;
+﻿using Pearl.Maui.Views;
+
+namespace Pearl.Maui;
 
 public sealed partial class App : Application
 {
-    public App()
+    public App(ShellView shellView)
     {
+        MainPage = shellView;
         InitializeComponent();
-
-        MainPage = new AppShell();
     }
 }

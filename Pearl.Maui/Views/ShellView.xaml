@@ -1,0 +1,8 @@
+<Shell x:Class="Pearl.Maui.Views.ShellView"
+       xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:local="clr-namespace:Pearl.Maui.Views">
+
+    <ShellContent Title="Welcome" Route="WelcomeView"
+                  ContentTemplate="{DataTemplate local:WelcomeView}" />
+</Shell>
