@@ -20,7 +20,7 @@
             </VerticalStackLayout>
         </VerticalStackLayout>
 
-        <Button Text="Authenticate" Command="{Binding AuthenticateCommandAsync}" />
+        <Button Text="Authenticate" Command="{Binding AuthenticateCommandAsync}" IsEnabled="{Binding IsReady}" />
         <Label Text="A new account will be created if the provided username does not already exist." Opacity="0.5" />
     </VerticalStackLayout>
 </ContentPage>

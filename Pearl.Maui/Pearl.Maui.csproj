@@ -29,7 +29,8 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
-	</PropertyGroup>
+	  <UserSecretsId>74572c8d-0fe3-40ac-ae31-8fb59fff8cc9</UserSecretsId>
+  </PropertyGroup>
 
 	<ItemGroup>
 		<!-- App Icon -->
@@ -44,7 +45,16 @@
 
 	<ItemGroup>
 	  <PackageReference Include="CommunityToolkit.Mvvm" Version="7.1.2" />
+	  <PackageReference Include="FluentResults" Version="3.8.0" />
+	  <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
+	  <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
+	  <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
+	  <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
 	  <PackageReference Include="Plugin.ValidationRules" Version="1.5.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Pearl.Models\Pearl.Models.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -54,6 +64,12 @@
 	  <Compile Update="Views\ShellView.xaml.cs">
 	    <DependentUpon>ShellView.xaml</DependentUpon>
 	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="appsettings.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 
 </Project>

@@ -3,6 +3,7 @@ using Pearl.Api.Extensions;
 using Pearl.Api.Models.Requests;
 using Pearl.Api.Models.Responses;
 using Pearl.Api.Services;
+using Pearl.Models;
 
 namespace Pearl.Api.Controllers;
 

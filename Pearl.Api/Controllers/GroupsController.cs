@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Pearl.Api.Extensions;
 using Pearl.Api.Models;
-using Pearl.Api.Models.Responses;
 using Pearl.Api.Services;
+using Pearl.Models;
 
 namespace Pearl.Api.Controllers;
 

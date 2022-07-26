@@ -1,4 +1,7 @@
-﻿using Pearl.Maui.Services;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Pearl.Maui.Models;
+using Pearl.Maui.Services;
 using Pearl.Maui.ViewModels;
 using Pearl.Maui.Views;
 
@@ -18,11 +21,19 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
 
+        builder.Configuration.AddJsonFile("appsettings.json");
+
         builder.Services
             .AddTransient<ShellView>()
             .AddTransient<WelcomeView>()
             .AddTransient<WelcomeViewModel>()
-            .AddTransient<ValidationService>();
+            .AddTransient<AuthenticationService>()
+            .AddTransient<ValidationService>()
+            .AddScoped<HttpClient>()
+            .AddTransient(_ => new Settings()
+            {
+                Url = builder.Configuration.GetValue<string>($"{nameof(Settings)}:Url")
+            });
 
         return builder.Build();
     }

@@ -4,6 +4,7 @@ using Pearl.Api.Models.Requests;
 using Pearl.Api.Models.Responses;
 using Pearl.Database;
 using Pearl.Database.Models;
+using Pearl.Models;
 
 namespace Pearl.Api.Services;
 

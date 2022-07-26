@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Pearl.Api.Extensions;
-using Pearl.Api.Models.Responses;
 using Pearl.Api.Services;
+using Pearl.Models;
 
 namespace Pearl.Api.Hubs;
 

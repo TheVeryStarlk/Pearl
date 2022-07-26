@@ -1,5 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using Pearl.Maui.Messages;
+using Pearl.Maui.Models;
 using Pearl.Maui.Services;
 using Plugin.ValidationRules;
 using Plugin.ValidationRules.Rules;
@@ -14,11 +17,21 @@ public sealed class WelcomeViewModel : ObservableObject
 
     public AsyncRelayCommand AuthenticateCommandAsync { get; }
 
-    private readonly ValidationService validationService;
+    public bool IsReady
+    {
+        get => isReady;
+        set => SetProperty(ref isReady, value);
+    }
 
-    public WelcomeViewModel(ValidationService validationService)
+    private bool isReady = true;
+
+    private readonly ValidationService validationService;
+    private readonly AuthenticationService authenticationService;
+
+    public WelcomeViewModel(ValidationService validationService, AuthenticationService authenticationService)
     {
         this.validationService = validationService;
+        this.authenticationService = authenticationService;
 
         Username = new Validatable<string>();
         Username.Validations.Add(new NotEmptyRule<string>(string.Empty)
@@ -37,6 +50,33 @@ public sealed class WelcomeViewModel : ObservableObject
 
     private async Task AuthenticateAsync()
     {
-        validationService.ValidateAll(Username, Password);
+        if (!validationService.ValidateAll(Username, Password))
+        {
+            return;
+        }
+
+        IsReady = false;
+        var response =
+            await authenticationService.AuthenticateAsync(Username.Value, Password.Value);
+
+        if (response is null)
+        {
+            WeakReferenceMessenger.Default.Send(new DialogMessage("Invalid Response", "An unknown error has occurred, please try again later."));
+            IsReady = true;
+
+            return;
+        }
+
+        if (response.IsSuccess)
+        {
+            // TODO: Save the authentication response, and navigate to an another view.
+            IsReady = true;
+
+            return;
+        }
+
+        WeakReferenceMessenger.Default.Send(new DialogMessage("Authentication Failure",
+            string.Join(Environment.NewLine, response.Errors.Select(error => error.Message))));
+        IsReady = true;
     }
 }

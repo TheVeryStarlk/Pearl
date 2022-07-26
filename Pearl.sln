@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pearl.Api", "Pearl.Api\Pear
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pearl.Database", "Pearl.Database\Pearl.Database.csproj", "{05ABEBE4-6D2C-4AAE-A2AD-7B140C003086}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pearl.Maui", "Pearl.Maui\Pearl.Maui.csproj", "{3F3F3E62-7AAA-4F21-A61E-5EF2A09B75C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pearl.Maui", "Pearl.Maui\Pearl.Maui.csproj", "{3F3F3E62-7AAA-4F21-A61E-5EF2A09B75C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pearl.Models", "Pearl.Models\Pearl.Models.csproj", "{2C5F240F-036E-4C47-B5DB-D73BD650421D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +31,10 @@ Global
 		{3F3F3E62-7AAA-4F21-A61E-5EF2A09B75C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F3F3E62-7AAA-4F21-A61E-5EF2A09B75C3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3F3F3E62-7AAA-4F21-A61E-5EF2A09B75C3}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{2C5F240F-036E-4C47-B5DB-D73BD650421D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C5F240F-036E-4C47-B5DB-D73BD650421D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C5F240F-036E-4C47-B5DB-D73BD650421D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C5F240F-036E-4C47-B5DB-D73BD650421D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

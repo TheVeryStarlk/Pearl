@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Pearl.Api.Models.Responses;
+using Pearl.Models;
 
 namespace Pearl.Api.Filters;
 

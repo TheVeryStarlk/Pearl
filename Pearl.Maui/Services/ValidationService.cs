@@ -6,15 +6,15 @@ public sealed class ValidationService
 {
     public bool ValidateAll(params IValidity[] validities)
     {
-        var failed = true;
+        var success = true;
         foreach (var validity in validities)
         {
             if (!validity.Validate())
             {
-                failed = true;
+                success = false;
             }
         }
 
-        return failed;
+        return success;
     }
 }
