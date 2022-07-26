@@ -7,15 +7,21 @@ namespace Pearl.Maui.Views;
 
 public sealed partial class WelcomeView : ContentPage
 {
+    private readonly WelcomeViewModel viewModel;
+
     public WelcomeView(WelcomeViewModel viewModel)
     {
+        this.viewModel = viewModel;
         BindingContext = viewModel;
         InitializeComponent();
 
-        UsernameLabel.RegisterVisibilityToggler();
-        PasswordLabel.RegisterVisibilityToggler();
-
         WeakReferenceMessenger.Default.Register<DialogMessage>(this,
             async (_, message) => await DisplayAlert(message.Title, message.Value, "Close"));
+    }
+
+    private void AuthenticationButton(object sender, EventArgs eventArgs)
+    {
+        UsernameLabel.RegisterValidation(UsernameEntry, viewModel.Username);
+        PasswordLabel.RegisterValidation(PasswordEntry, viewModel.Password);
     }
 }

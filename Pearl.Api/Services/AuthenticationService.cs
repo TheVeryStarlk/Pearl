@@ -56,7 +56,7 @@ public sealed class AuthenticationService
             await refreshTokenService.GenerateAsync(request.UserName)));
     }
 
-    public async Task<Result<RefreshResponse>> RefreshAsync(RefreshRequest request)
+    public Result<RefreshResponse> Refresh(RefreshRequest request)
     {
         var refreshToken = pearlContext.RefreshTokens.Include(path => path.User)
             .FirstOrDefault(refreshToken => refreshToken.Value == request.RefreshToken);
@@ -72,12 +72,9 @@ public sealed class AuthenticationService
 
         if (accessTokenResult.IsSuccess && accessTokenResult.Value == userName)
         {
-            if (DateTime.UtcNow > refreshToken.ExpiryDate)
-            {
-                return Result.Fail("The provided refresh token has expired.");
-            }
-
-            return Result.Ok(new RefreshResponse(accessTokenService.Generate(userName)));
+            return DateTime.UtcNow > refreshToken.ExpiryDate
+                ? Result.Fail("The provided refresh token has expired.")
+                : Result.Ok(new RefreshResponse(accessTokenService.Generate(userName)));
         }
 
         return Result.Fail(accessTokenResult.Errors);

@@ -30,9 +30,9 @@ public sealed class AuthenticationController : ControllerBase
     [HttpPost("refresh")]
     [ProducesResponseType(statusCode: StatusCodes.Status200OK, type: typeof(RefreshResponse))]
     [ProducesResponseType(statusCode: StatusCodes.Status400BadRequest, type: typeof(ErrorResponse))]
-    public async Task<IActionResult> RefreshAsync([FromBody] RefreshRequest request)
+    public IActionResult Refresh([FromBody] RefreshRequest request)
     {
-        var response = await authenticationService.RefreshAsync(request);
+        var response = authenticationService.Refresh(request);
         return response.ToActionResult();
     }
 }

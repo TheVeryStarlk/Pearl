@@ -2,7 +2,6 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Pearl.Maui.Messages;
-using Pearl.Maui.Models;
 using Pearl.Maui.Services;
 using Plugin.ValidationRules;
 using Plugin.ValidationRules.Rules;
