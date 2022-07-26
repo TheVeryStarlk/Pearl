@@ -6,7 +6,11 @@ public static class LabelExtensions
 {
     public static void RegisterValidation<T>(this Label label, Entry entry, Validatable<T> validatable)
     {
-        entry.PropertyChanged += (_, _) =>
+        TriggerVisibility();
+
+        entry.PropertyChanged += (_, _) => TriggerVisibility();
+
+        void TriggerVisibility()
         {
             if (validatable.Validate())
             {
@@ -15,10 +19,7 @@ public static class LabelExtensions
             }
 
             label.Text = validatable.Error;
-        };
-
-        // Trigger the property change for initial activation.
-        entry.Text = entry.Text;
-        label.IsVisible = true;
+            label.IsVisible = true;
+        }
     }
 }
