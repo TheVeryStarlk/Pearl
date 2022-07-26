@@ -26,6 +26,8 @@ public static class MauiProgram
             .AddTransient<ShellView>()
             .AddTransient<WelcomeView>()
             .AddTransient<WelcomeViewModel>()
+            .AddTransient<GroupsView>()
+            .AddTransient<GroupsViewModel>()
             .AddTransient<AuthenticationService>()
             .AddTransient<ValidationService>()
             .AddScoped<HttpClient>()

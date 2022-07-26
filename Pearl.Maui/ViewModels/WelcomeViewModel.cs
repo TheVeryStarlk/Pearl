@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Pearl.Maui.Messages;
 using Pearl.Maui.Services;
+using Pearl.Maui.Views;
 using Plugin.ValidationRules;
 using Plugin.ValidationRules.Rules;
 
@@ -68,7 +69,8 @@ public sealed class WelcomeViewModel : ObservableObject
 
         if (response.IsSuccess)
         {
-            // TODO: Save the authentication response, and navigate to an another view.
+            await Shell.Current.GoToAsync(nameof(GroupsView));
+            Preferences.Set("RefreshToken", response.Value!.RefreshToken);
             IsReady = true;
 
             return;

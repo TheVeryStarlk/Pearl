@@ -8,6 +8,8 @@ public sealed partial class App : Application
     {
         MainPage = shellView;
         InitializeComponent();
+
+        Routing.RegisterRoute(nameof(GroupsView), typeof(GroupsView));
     }
 
     protected override Window CreateWindow(IActivationState? activationState)

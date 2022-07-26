@@ -1,0 +1,6 @@
+<ContentPage x:Class="Pearl.Maui.Views.GroupsView"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <Label Text="It looks quite empty here." VerticalOptions="Center" HorizontalOptions="Center" Opacity="0.5" />
+</ContentPage>
