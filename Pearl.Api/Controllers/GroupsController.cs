@@ -20,6 +20,15 @@ public sealed class GroupsController : ControllerBase
         this.groupsService = groupsService;
     }
 
+    [HttpGet("groups")]
+    [ProducesResponseType(statusCode: StatusCodes.Status200OK, type: typeof(string[]))]
+    [ProducesResponseType(statusCode: StatusCodes.Status400BadRequest, type: typeof(ErrorResponse))]
+    public IActionResult Groups()
+    {
+        var response = groupsService.Groups(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
+        return response.ToActionResult();
+    }
+
     [HttpGet("messages")]
     [ProducesResponseType(statusCode: StatusCodes.Status200OK, type: typeof(Message[]))]
     [ProducesResponseType(statusCode: StatusCodes.Status400BadRequest, type: typeof(ErrorResponse))]

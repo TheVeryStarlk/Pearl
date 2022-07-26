@@ -14,6 +14,15 @@ public sealed class GroupsService
         this.pearlContext = pearlContext;
     }
 
+    public Result<string[]> Groups(string userName)
+    {
+        var user = pearlContext.Users.Include(path => path.Groups).First(user => user.Name == userName);
+
+        return user.Groups is null || user.Groups.Count == 0
+            ? Result.Fail($"'{userName}' is not in any group.")
+            : user.Groups.Select(group => group.Name).ToArray();
+    }
+
     public Result<Message[]> Messages(string groupName, string userName)
     {
         var group = pearlContext.Groups.Include(path => path.Users).FirstOrDefault(group => group.Name == groupName);
