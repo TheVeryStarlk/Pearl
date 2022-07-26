@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Pearl.Maui.Models;
 using Pearl.Maui.Services;
 using Pearl.Maui.ViewModels;
@@ -12,7 +11,6 @@ public static class MauiProgram
     public static MauiApp CreateMauiApp()
     {
         var builder = MauiApp.CreateBuilder();
-
         builder
             .UseMauiApp<App>()
             .ConfigureFonts(fonts =>
@@ -21,7 +19,8 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
 
-        builder.Configuration.AddJsonFile("appsettings.json");
+        // The default one, for debugging purposes.
+        Preferences.Set("Url", "https://localhost:7197");
 
         builder.Services
             .AddTransient<ShellView>()

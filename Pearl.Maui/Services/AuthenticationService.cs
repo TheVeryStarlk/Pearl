@@ -1,6 +1,4 @@
 ﻿using FluentResults;
-using Microsoft.Extensions.Options;
-using Pearl.Maui.Models;
 using Pearl.Models;
 using System.Net;
 using System.Text;
@@ -10,12 +8,10 @@ namespace Pearl.Maui.Services;
 
 public sealed class AuthenticationService
 {
-    private readonly Settings settingsOptions;
     private readonly HttpClient httpClient;
 
-    public AuthenticationService(Settings settingsOptions, HttpClient httpClient)
+    public AuthenticationService(HttpClient httpClient)
     {
-        this.settingsOptions = settingsOptions;
         this.httpClient = httpClient;
     }
 
@@ -23,7 +19,7 @@ public sealed class AuthenticationService
     {
         var body = JsonSerializer.Serialize(new AuthenticateRequest(userName, password));
 
-        var request = await httpClient.PostAsync($"{settingsOptions.Url}/authentication/authenticate",
+        var request = await httpClient.PostAsync($"{Preferences.Get("Url", null)}/authentication/authenticate",
             new StringContent(body, Encoding.Default, "application/json"));
 
         var response = await request.Content.ReadAsStringAsync();
