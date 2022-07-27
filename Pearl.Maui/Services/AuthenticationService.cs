@@ -33,7 +33,7 @@ public sealed class AuthenticationService
 
     public async Task<Result<string[]?>> GroupsAsync()
     {
-        var refreshResponse = await RefreshAsync(Preferences.Get("AccessToken", null));
+        Result<RefreshResponse>? refreshResponse = await RefreshAsync(Preferences.Get("AccessToken", null));
 
         if (refreshResponse.IsFailed)
         {
@@ -44,6 +44,27 @@ public sealed class AuthenticationService
             new AuthenticationHeaderValue("Bearer", refreshResponse.Value!.AccessToken);
 
         var request = await httpClient.GetAsync($"{Preferences.Get("Url", null)}/groups");
+
+        var response = await request.Content.ReadAsStringAsync();
+
+        return request.StatusCode is HttpStatusCode.OK
+            ? Result.Ok(JsonSerializer.Deserialize<string[]>(response))
+            : Result.Fail(JsonSerializer.Deserialize<ErrorResponse>(response)?.Errors);
+    }
+
+    public async Task<Result<string[]?>> Messages(string name)
+    {
+        Result<RefreshResponse>? refreshResponse = await RefreshAsync(Preferences.Get("AccessToken", null));
+
+        if (refreshResponse.IsFailed)
+        {
+            return Result.Fail(refreshResponse.Errors);
+        }
+
+        httpClient.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", refreshResponse.Value!.AccessToken);
+
+        var request = await httpClient.GetAsync($"{Preferences.Get("Url", null)}/groups/messages/{name}");
 
         var response = await request.Content.ReadAsStringAsync();
 

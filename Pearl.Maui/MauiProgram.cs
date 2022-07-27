@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Pearl.Maui.Models;
+﻿using CommunityToolkit.Maui;
 using Pearl.Maui.Services;
 using Pearl.Maui.ViewModels;
 using Pearl.Maui.Views;
@@ -13,6 +12,7 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
+            .UseMauiCommunityToolkit()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -29,12 +29,9 @@ public static class MauiProgram
             .AddTransient<GroupsView>()
             .AddTransient<GroupsViewModel>()
             .AddTransient<AuthenticationService>()
+            .AddTransient<HubService>()
             .AddTransient<ValidationService>()
-            .AddScoped<HttpClient>()
-            .AddTransient(_ => new Settings()
-            {
-                Url = builder.Configuration.GetValue<string>($"{nameof(Settings)}:Url")
-            });
+            .AddScoped<HttpClient>();
 
         return builder.Build();
     }

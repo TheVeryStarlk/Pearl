@@ -1,10 +1,10 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using FluentResults;
+﻿using FluentResults;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Pearl.Api.Options;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace Pearl.Api.Services;
 

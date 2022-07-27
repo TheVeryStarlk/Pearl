@@ -33,6 +33,6 @@ public sealed class PearlHub : Hub
         var response = await pearlService.SendMessageAsync(content, groupName, subject);
 
         return response.IfSuccess(async () =>
-            await Clients.Group(groupName).SendAsync("Message", subject, response.Value));
+            await Clients.Group(groupName).SendAsync("Message", subject, groupName, response.Value));
     }
 }

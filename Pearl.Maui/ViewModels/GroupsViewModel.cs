@@ -15,11 +15,14 @@ public sealed class GroupsViewModel : ObservableObject
 
     private string[]? groups;
 
+    public HubService HubService { get; }
+
     private readonly AuthenticationService authenticationService;
 
-    public GroupsViewModel(AuthenticationService authenticationService)
+    public GroupsViewModel(AuthenticationService authenticationService, HubService hubService)
     {
         this.authenticationService = authenticationService;
+        HubService = hubService;
 
         WeakReferenceMessenger.Default.Register<GroupsMessage>(this,
             async (_, _) => await UpdateGroupsAsync());
@@ -28,5 +31,8 @@ public sealed class GroupsViewModel : ObservableObject
     private async Task UpdateGroupsAsync()
     {
         Groups = (await authenticationService.GroupsAsync()).Value;
+
+        await HubService.StartAsync();
+        HubService.Group += async () => Groups = (await authenticationService.GroupsAsync()).Value;
     }
 }

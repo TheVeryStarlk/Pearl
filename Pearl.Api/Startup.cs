@@ -1,5 +1,4 @@
-﻿using System.Text;
-using FluentValidation.AspNetCore;
+﻿using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -9,6 +8,7 @@ using Pearl.Api.Hubs;
 using Pearl.Api.Options;
 using Pearl.Api.Services;
 using Pearl.Database;
+using System.Text;
 
 namespace Pearl.Api;
 
