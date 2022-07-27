@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Pearl.Models;
+using Pearl.Models.Requests;
 
 namespace Pearl.Api.Validation;
 

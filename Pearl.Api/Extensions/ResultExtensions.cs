@@ -1,6 +1,6 @@
 ﻿using FluentResults;
 using Microsoft.AspNetCore.Mvc;
-using Pearl.Models;
+using Pearl.Models.Responses;
 
 namespace Pearl.Api.Extensions;
 

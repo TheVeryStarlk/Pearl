@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Pearl.Models;
+namespace Pearl.Models.Requests;
 
-public sealed record AuthenticateResponse(
+public sealed record RefreshRequest(
     [property: JsonPropertyName("accessToken")] string AccessToken,
     [property: JsonPropertyName("refreshToken")] string RefreshToken);

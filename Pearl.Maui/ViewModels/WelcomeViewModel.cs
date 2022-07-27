@@ -63,16 +63,17 @@ public sealed class WelcomeViewModel : ObservableObject
         {
             WeakReferenceMessenger.Default.Send(new DialogMessage("Invalid Response", "An unknown error has occurred, please try again later."));
             IsReady = true;
-
             return;
         }
 
         if (response.IsSuccess)
         {
-            await Shell.Current.GoToAsync(nameof(GroupsView));
+            Preferences.Set("AccessToken", response.Value!.AccessToken);
             Preferences.Set("RefreshToken", response.Value!.RefreshToken);
-            IsReady = true;
 
+            await Shell.Current.GoToAsync(nameof(GroupsView));
+            WeakReferenceMessenger.Default.Send<GroupsMessage>();
+            IsReady = true;
             return;
         }
 

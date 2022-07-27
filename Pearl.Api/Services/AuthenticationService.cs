@@ -1,10 +1,9 @@
 ﻿using FluentResults;
 using Microsoft.EntityFrameworkCore;
-using Pearl.Api.Models.Requests;
-using Pearl.Api.Models.Responses;
 using Pearl.Database;
 using Pearl.Database.Models;
-using Pearl.Models;
+using Pearl.Models.Requests;
+using Pearl.Models.Responses;
 
 namespace Pearl.Api.Services;
 

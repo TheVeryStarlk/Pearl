@@ -2,5 +2,33 @@
              xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <Label Text="It looks quite empty here." VerticalOptions="Center" HorizontalOptions="Center" Opacity="0.5" />
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Label Text="It looks quite empty here." HorizontalOptions="Center" VerticalOptions="Center" Opacity="0.5"
+               Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="2" />
+
+        <CollectionView ItemsSource="{Binding Groups}" Margin="5" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="2">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Margin="5" HasShadow="True">
+                        <VerticalStackLayout Spacing="10">
+                            <Label Text="{Binding}" FontSize="Title" />
+                            <Button Text="Open" HorizontalOptions="Start" />
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Button Text="Join" MaximumHeightRequest="50" MaximumWidthRequest="50" Margin="15" Grid.Column="1" Grid.Row="1" />
+    </Grid>
 </ContentPage>
