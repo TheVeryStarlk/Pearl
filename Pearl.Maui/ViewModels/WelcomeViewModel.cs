@@ -55,6 +55,9 @@ public sealed class WelcomeViewModel : ObservableObject
             return;
         }
 
+        Preferences.Clear("AccessToken");
+        Preferences.Clear("RefreshToken");
+
         IsReady = false;
         var response =
             await authenticationService.AuthenticateAsync(Username.Value, Password.Value);

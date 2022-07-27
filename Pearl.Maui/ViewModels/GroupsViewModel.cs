@@ -30,9 +30,17 @@ public sealed class GroupsViewModel : ObservableObject
 
     private async Task UpdateGroupsAsync()
     {
-        Groups = (await authenticationService.GroupsAsync()).Value;
+        async Task UpdateAsync()
+        {
+            var request = (await authenticationService.GroupsAsync());
+            if (request.IsSuccess)
+            {
+                Groups = request.Value;
+            }
+        }
 
+        await UpdateAsync();
         await HubService.StartAsync();
-        HubService.Group += async () => Groups = (await authenticationService.GroupsAsync()).Value;
+        HubService.Group += async () => await UpdateAsync();
     }
 }
