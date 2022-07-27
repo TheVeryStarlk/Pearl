@@ -1,6 +1,8 @@
 <ContentPage x:Class="Pearl.Maui.Views.GroupsView"
              xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+
+             x:Name="GroupsPage">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -21,8 +23,9 @@
                 <DataTemplate>
                     <Frame HasShadow="True" Margin="5">
                         <VerticalStackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Spacing="10">
-                            <Label Text="{Binding}" FontSize="Title" />
-                            <Button Text="Open" HorizontalOptions="Start" />
+                            <Label x:Name="GroupLabel" Text="{Binding}" FontSize="Title" />
+                            <Button Text="Open" Command="{Binding BindingContext.OpenGroupCommandAsync, Source={x:Reference GroupsPage}}"
+                                    CommandParameter="{Binding Source={x:Reference GroupLabel}, Path=Text}" HorizontalOptions="Start" />
                         </VerticalStackLayout>
                     </Frame>
                 </DataTemplate>

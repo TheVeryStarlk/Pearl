@@ -1,4 +1,5 @@
 ﻿using FluentResults;
+using Pearl.Models;
 using Pearl.Models.Requests;
 using Pearl.Models.Responses;
 using System.Net;
@@ -52,7 +53,7 @@ public sealed class AuthenticationService
             : Result.Fail(JsonSerializer.Deserialize<ErrorResponse>(response)?.Errors);
     }
 
-    public async Task<Result<string[]?>> Messages(string name)
+    public async Task<Result<Message[]?>> MessagesAsync(string name)
     {
         Result<RefreshResponse>? refreshResponse = await RefreshAsync(Preferences.Get("AccessToken", null));
 
@@ -68,8 +69,13 @@ public sealed class AuthenticationService
 
         var response = await request.Content.ReadAsStringAsync();
 
+        if (string.IsNullOrWhiteSpace(response))
+        {
+            return Result.Fail("No messages were found.");
+        }
+
         return request.StatusCode is HttpStatusCode.OK
-            ? Result.Ok(JsonSerializer.Deserialize<string[]>(response))
+            ? Result.Ok(JsonSerializer.Deserialize<Message[]>(response))
             : Result.Fail(JsonSerializer.Deserialize<ErrorResponse>(response)?.Errors);
     }
 

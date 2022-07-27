@@ -10,6 +10,7 @@ public sealed partial class App : Application
         InitializeComponent();
 
         Routing.RegisterRoute(nameof(GroupsView), typeof(GroupsView));
+        Routing.RegisterRoute(nameof(MessagesView), typeof(MessagesView));
     }
 
     protected override Window CreateWindow(IActivationState? activationState)

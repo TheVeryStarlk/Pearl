@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Pearl.Api.Extensions;
-using Pearl.Api.Models;
 using Pearl.Api.Services;
+using Pearl.Models;
 using Pearl.Models.Responses;
 using System.Security.Claims;
 

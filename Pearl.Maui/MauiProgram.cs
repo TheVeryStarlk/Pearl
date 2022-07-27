@@ -28,6 +28,8 @@ public static class MauiProgram
             .AddTransient<WelcomeViewModel>()
             .AddTransient<GroupsView>()
             .AddTransient<GroupsViewModel>()
+            .AddTransient<MessagesView>()
+            .AddTransient<MessagesViewModel>()
             .AddTransient<AuthenticationService>()
             .AddTransient<HubService>()
             .AddTransient<ValidationService>()

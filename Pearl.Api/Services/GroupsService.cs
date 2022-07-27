@@ -1,7 +1,7 @@
 ﻿using FluentResults;
 using Microsoft.EntityFrameworkCore;
-using Pearl.Api.Models;
 using Pearl.Database;
+using Pearl.Models;
 
 namespace Pearl.Api.Services;
 
