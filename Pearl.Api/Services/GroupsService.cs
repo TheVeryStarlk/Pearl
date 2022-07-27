@@ -40,4 +40,21 @@ public sealed class GroupsService
 
         return Result.Fail("The requested group does not exist.");
     }
+    
+    public Result<string[]> Users(string groupName, string userName)
+    {
+        var group = pearlContext.Groups.Include(path => path.Users).FirstOrDefault(group => group.Name == groupName);
+
+        if (group is not null)
+        {
+            if (group.Users.All(user => user.Name != userName))
+            {
+                return Result.Fail($"'{userName}' is not in the requested group.");
+            }
+
+            return group.Users.Select(user => user.Name).ToArray();
+        }
+
+        return Result.Fail("The requested group does not exist.");
+    }
 }

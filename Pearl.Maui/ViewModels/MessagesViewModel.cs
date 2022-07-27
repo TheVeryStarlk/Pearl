@@ -23,10 +23,17 @@ public sealed class MessagesViewModel : ObservableObject, IQueryAttributable
         set => SetProperty(ref messages, value);
     }
 
+    public ObservableCollection<string> Users
+    {
+        get => users;
+        set => SetProperty(ref users, value);
+    }
+
     public AsyncRelayCommand<string?> SendMessageCommandAsync { get; }
 
     private string? group;
     private ObservableCollection<Message> messages;
+    private ObservableCollection<string> users;
 
     private readonly AuthenticationService authenticationService;
     private readonly HubService hubService;
@@ -40,6 +47,7 @@ public sealed class MessagesViewModel : ObservableObject, IQueryAttributable
         hubService.Message += HandleNewMessage;
 
         messages = new ObservableCollection<Message>();
+        users = new ObservableCollection<string>();
 
         SendMessageCommandAsync = new AsyncRelayCommand<string?>(SendMessageAsync);
     }
@@ -51,7 +59,7 @@ public sealed class MessagesViewModel : ObservableObject, IQueryAttributable
             return;
         }
 
-        await hubService.SendMessageAsync(message, group);
+        await hubService.SendMessageAsync(message, group!);
     }
 
     private void HandleNewMessage(string userName, string groupName, string message)
@@ -67,7 +75,14 @@ public sealed class MessagesViewModel : ObservableObject, IQueryAttributable
 
         if (messages.IsSuccess)
         {
-            Messages = new ObservableCollection<Message>(messages.Value);
+            Messages = new ObservableCollection<Message>(messages.Value!);
+        }
+
+        var users = await authenticationService.UsersAsync(Group);
+
+        if (users.IsSuccess)
+        {
+            Users = new ObservableCollection<string>(users.Value!);
         }
     }
 }

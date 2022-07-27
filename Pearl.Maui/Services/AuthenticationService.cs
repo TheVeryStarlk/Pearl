@@ -53,6 +53,27 @@ public sealed class AuthenticationService
             : Result.Fail(JsonSerializer.Deserialize<ErrorResponse>(response)?.Errors);
     }
 
+    public async Task<Result<string[]?>> UsersAsync(string groupName)
+    {
+        Result<RefreshResponse>? refreshResponse = await RefreshAsync(Preferences.Get("AccessToken", null));
+
+        if (refreshResponse.IsFailed)
+        {
+            return Result.Fail(refreshResponse.Errors);
+        }
+
+        httpClient.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", refreshResponse.Value!.AccessToken);
+
+        var request = await httpClient.GetAsync($"{Preferences.Get("Url", null)}/groups/users?groupName={groupName}");
+
+        var response = await request.Content.ReadAsStringAsync();
+
+        return request.StatusCode is HttpStatusCode.OK
+            ? Result.Ok(JsonSerializer.Deserialize<string[]>(response))
+            : Result.Fail(JsonSerializer.Deserialize<ErrorResponse>(response)?.Errors);
+    }
+
     public async Task<Result<Message[]?>> MessagesAsync(string name)
     {
         Result<RefreshResponse>? refreshResponse = await RefreshAsync(Preferences.Get("AccessToken", null));

@@ -5,39 +5,54 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Label Text="{Binding Group}" VerticalOptions="Center" FontSize="Title" Margin="15, 10" Grid.Row="0" />
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-        <CollectionView ItemsSource="{Binding Messages}" Margin="5" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="2">
+            <Label Text="{Binding Group}" VerticalOptions="Center" FontSize="Title" Margin="15, 10" Grid.Row="0" />
+
+            <CollectionView ItemsSource="{Binding Messages}" Margin="5" Grid.Row="1">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="5" Padding="5">
+                            <HorizontalStackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Spacing="10">
+                                <toolkit:AvatarView Text="{Binding UserName}" />
+
+                                <VerticalStackLayout Spacing="5">
+                                    <Label Text="{Binding UserName}" FontSize="Subtitle" Opacity="0.75" />
+                                    <Label Text="{Binding Content}"/>
+                                </VerticalStackLayout>
+                            </HorizontalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Grid Margin="10" Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Entry x:Name="MessageEntry" Grid.Column="0" />
+                <Button Margin="5, 0, 0, 0" Text="Send" Command="{Binding SendMessageCommandAsync}"
+                    CommandParameter="{Binding Source={x:Reference MessageEntry}, Path=Text}" Grid.Column="1" />
+            </Grid>
+        </Grid>
+
+        <CollectionView ItemsSource="{Binding Users}" Margin="15" Grid.Row="0">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Border Margin="5" Padding="5">
-                        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Spacing="10">
-                            <toolkit:AvatarView Text="{Binding UserName}" />
-
-                            <VerticalStackLayout Spacing="5">
-                                <Label Text="{Binding UserName}" FontSize="Subtitle" Opacity="0.75" />
-                                <Label Text="{Binding Content}"/>
-                            </VerticalStackLayout>
-                        </HorizontalStackLayout>
-                    </Border>
+                    <toolkit:AvatarView HeightRequest="45" Text="{Binding}" />
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-
-        <Grid Margin="5" Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-
-            <Entry x:Name="MessageEntry" Grid.Column="0" />
-            <Button Margin="5, 0, 0, 0" Text="Send" Command="{Binding SendMessageCommandAsync}"
-                    CommandParameter="{Binding Source={x:Reference MessageEntry}, Path=Text}" Grid.Column="1" />
-        </Grid>
     </Grid>
 </ContentPage>

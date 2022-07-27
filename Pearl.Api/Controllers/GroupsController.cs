@@ -37,4 +37,13 @@ public sealed class GroupsController : ControllerBase
         var response = groupsService.Messages(groupName, HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
         return response.ToActionResult();
     }
+    
+    [HttpGet("users")]
+    [ProducesResponseType(statusCode: StatusCodes.Status200OK, type: typeof(string[]))]
+    [ProducesResponseType(statusCode: StatusCodes.Status400BadRequest, type: typeof(ErrorResponse))]
+    public IActionResult Users(string groupName)
+    {
+        var response = groupsService.Users(groupName, HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
+        return response.ToActionResult();
+    }
 }
