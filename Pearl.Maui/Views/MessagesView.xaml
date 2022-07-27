@@ -1,13 +1,43 @@
 <ContentPage x:Class="Pearl.Maui.Views.MessagesView"
              xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <Label Text="{Binding Group}" VerticalOptions="Center" FontSize="Title" Margin="15, 10" Grid.Row="0" />
+
+        <CollectionView ItemsSource="{Binding Messages}" Margin="5" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="2">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border Margin="5" Padding="5">
+                        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Spacing="10">
+                            <toolkit:AvatarView Text="{Binding UserName}" />
+
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="{Binding UserName}" FontSize="Subtitle" Opacity="0.75" />
+                                <Label Text="{Binding Content}"/>
+                            </VerticalStackLayout>
+                        </HorizontalStackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Grid Margin="5" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Entry x:Name="MessageEntry" Grid.Column="0" />
+            <Button Margin="5, 0, 0, 0" Text="Send" Command="{Binding SendMessageCommandAsync}"
+                    CommandParameter="{Binding Source={x:Reference MessageEntry}, Path=Text}" Grid.Column="1" />
+        </Grid>
     </Grid>
 </ContentPage>

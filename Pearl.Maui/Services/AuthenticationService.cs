@@ -65,7 +65,7 @@ public sealed class AuthenticationService
         httpClient.DefaultRequestHeaders.Authorization =
             new AuthenticationHeaderValue("Bearer", refreshResponse.Value!.AccessToken);
 
-        var request = await httpClient.GetAsync($"{Preferences.Get("Url", null)}/groups/messages/{name}");
+        var request = await httpClient.GetAsync($"{Preferences.Get("Url", null)}/groups/messages?groupName={name}");
 
         var response = await request.Content.ReadAsStringAsync();
 

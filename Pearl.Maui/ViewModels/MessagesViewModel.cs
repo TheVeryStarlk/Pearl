@@ -1,4 +1,6 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Pearl.Maui.Messages;
 using Pearl.Maui.Services;
@@ -15,9 +17,16 @@ public sealed class MessagesViewModel : ObservableObject, IQueryAttributable
         set => SetProperty(ref group, value);
     }
 
-    public ObservableCollection<Message> Messages { get; private set; }
+    public ObservableCollection<Message> Messages
+    {
+        get => messages;
+        set => SetProperty(ref messages, value);
+    }
+
+    public AsyncRelayCommand<string?> SendMessageCommandAsync { get; }
 
     private string? group;
+    private ObservableCollection<Message> messages;
 
     private readonly AuthenticationService authenticationService;
     private readonly HubService hubService;
@@ -27,24 +36,38 @@ public sealed class MessagesViewModel : ObservableObject, IQueryAttributable
         this.authenticationService = authenticationService;
         this.hubService = hubService;
 
-        Messages = new ObservableCollection<Message>();
+        hubService.GroupMessage += async (message) => await Toast.Make(message).Show();
+        hubService.Message += HandleNewMessage;
 
-        WeakReferenceMessenger.Default.Register<MessagesRequest>(this,
-            async (_, message) => await UpdateMessagesAsync(message));
+        messages = new ObservableCollection<Message>();
+
+        SendMessageCommandAsync = new AsyncRelayCommand<string?>(SendMessageAsync);
     }
 
-    private async Task UpdateMessagesAsync(MessagesRequest message)
+    private async Task SendMessageAsync(string? message)
     {
-        var messages = await authenticationService.MessagesAsync(message.GroupName);
+        if (string.IsNullOrWhiteSpace(message))
+        {
+            return;
+        }
+
+        await hubService.SendMessageAsync(message, group);
+    }
+
+    private void HandleNewMessage(string userName, string groupName, string message)
+    {
+        Messages.Add(new Message(userName, message));
+    }
+
+    public async void ApplyQueryAttributes(IDictionary<string, object> query)
+    {
+        Group = (string)query["group"];
+
+        var messages = await authenticationService.MessagesAsync(Group);
 
         if (messages.IsSuccess)
         {
             Messages = new ObservableCollection<Message>(messages.Value);
         }
-    }
-
-    public void ApplyQueryAttributes(IDictionary<string, object> query)
-    {
-        Group = (string)query["group"];
     }
 }

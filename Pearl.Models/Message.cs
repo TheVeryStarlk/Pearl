@@ -1,3 +1,7 @@
-﻿namespace Pearl.Models;
+﻿using System.Text.Json.Serialization;
 
-public sealed record Message(string UserName, string Content);
+namespace Pearl.Models;
+
+public sealed record Message(
+    [property: JsonPropertyName("userName")] string UserName,
+    [property: JsonPropertyName("content")] string Content);

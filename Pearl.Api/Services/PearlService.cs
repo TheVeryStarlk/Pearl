@@ -1,4 +1,5 @@
-﻿using FluentResults;
+﻿using System.Diagnostics;
+using FluentResults;
 using Microsoft.EntityFrameworkCore;
 using Pearl.Database;
 using Pearl.Database.Models;
@@ -45,7 +46,7 @@ public sealed class PearlService
             }
 
             pearlContext.Groups.Add(group);
-            await pearlContext.SaveChangesAsync();
+            Debug.WriteLine(await pearlContext.SaveChangesAsync());
 
             return Result.Ok($"\'{userName}\' has joined the group.");
         }
@@ -54,7 +55,7 @@ public sealed class PearlService
 
         if (databaseGroup.Users.Any(user => user.Name == userName))
         {
-            return Result.Fail($"\'{userName}\' is already in the group.");
+            return Result.Ok($"\'{userName}\' is already in the group.");
         }
 
         if (groups is not null)
@@ -69,7 +70,7 @@ public sealed class PearlService
             };
         }
 
-        await pearlContext.SaveChangesAsync();
+        Debug.WriteLine(await pearlContext.SaveChangesAsync());
 
         return Result.Ok($"\'{userName}\' has joined the group.");
     }

@@ -21,6 +21,7 @@ public sealed class HubService
 
         connection = new HubConnectionBuilder()
             .WithUrl($"{Preferences.Get("Url", null)!}/pearlHub", options => options.AccessTokenProvider = ProvideAccessTokenAsync)
+            .WithAutomaticReconnect()
             .Build();
     }
 
@@ -52,9 +53,9 @@ public sealed class HubService
     {
         var request = await connection.InvokeAsync<ErrorResponse?>("SendMessage", content, groupName);
 
-        return request is not null
-            ? Result.Fail(request.Errors)
-            : Result.Ok();
+        return request is null
+            ? Result.Ok()
+            : Result.Fail(request.Errors);
     }
 
     private async Task<string?> ProvideAccessTokenAsync()

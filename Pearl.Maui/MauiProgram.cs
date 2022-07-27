@@ -31,7 +31,7 @@ public static class MauiProgram
             .AddTransient<MessagesView>()
             .AddTransient<MessagesViewModel>()
             .AddTransient<AuthenticationService>()
-            .AddTransient<HubService>()
+            .AddSingleton<HubService>()
             .AddTransient<ValidationService>()
             .AddScoped<HttpClient>();
 
