@@ -55,19 +55,4 @@
 	  <ProjectReference Include="..\Pearl.Models\Pearl.Models.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Compile Update="Views\WelcomeView.xaml.cs">
-	    <DependentUpon>WelcomeView.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="Views\ShellView.xaml.cs">
-	    <DependentUpon>ShellView.xaml</DependentUpon>
-	  </Compile>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <MauiXaml Update="Views\GroupsView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	</ItemGroup>
-
 </Project>
