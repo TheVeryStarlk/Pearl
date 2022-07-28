@@ -17,6 +17,12 @@ public sealed class MessagesViewModel : ObservableObject, IQueryAttributable
         set => SetProperty(ref group, value);
     }
 
+    public string? Message
+    {
+        get => message;
+        set => SetProperty(ref message, value);
+    }
+
     public ObservableCollection<Message> Messages
     {
         get => messages;
@@ -29,9 +35,10 @@ public sealed class MessagesViewModel : ObservableObject, IQueryAttributable
         set => SetProperty(ref users, value);
     }
 
-    public AsyncRelayCommand<string?> SendMessageCommandAsync { get; }
+    public AsyncRelayCommand SendMessageCommandAsync { get; }
 
     private string? group;
+    private string? message;
     private ObservableCollection<Message> messages;
     private ObservableCollection<string> users;
 
@@ -49,17 +56,18 @@ public sealed class MessagesViewModel : ObservableObject, IQueryAttributable
         messages = new ObservableCollection<Message>();
         users = new ObservableCollection<string>();
 
-        SendMessageCommandAsync = new AsyncRelayCommand<string?>(SendMessageAsync);
+        SendMessageCommandAsync = new AsyncRelayCommand(SendMessageAsync);
     }
 
-    private async Task SendMessageAsync(string? message)
+    private async Task SendMessageAsync()
     {
-        if (string.IsNullOrWhiteSpace(message))
+        if (string.IsNullOrWhiteSpace(Message))
         {
             return;
         }
 
-        await hubService.SendMessageAsync(message, group!);
+        await hubService.SendMessageAsync(Message, group!);
+        Message = string.Empty;
     }
 
     private void HandleNewMessage(string userName, string groupName, string message)

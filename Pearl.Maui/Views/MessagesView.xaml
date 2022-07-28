@@ -41,13 +41,17 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <Entry x:Name="MessageEntry" Grid.Column="0" />
+                <Entry Text="{Binding Message}" Grid.Column="0" />
                 <Button Margin="5, 0, 0, 0" Text="Send" Command="{Binding SendMessageCommandAsync}"
-                    CommandParameter="{Binding Source={x:Reference MessageEntry}, Path=Text}" Grid.Column="1" />
+                    CommandParameter="{Binding Message}" Grid.Column="1" />
             </Grid>
         </Grid>
 
         <CollectionView ItemsSource="{Binding Users}" Margin="15" Grid.Row="0">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Horizontal" />
+            </CollectionView.ItemsLayout>
+
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <toolkit:AvatarView HeightRequest="45" Text="{Binding}" />
